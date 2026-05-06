@@ -16,8 +16,8 @@ export function getFormattedDate(date: unknown): string {
 }
 
 export function collectionDateSort(
-  a: CollectionEntry<"post" | "note">,
-  b: CollectionEntry<"post" | "note">
+  a: CollectionEntry<"post" | "notes">,
+  b: CollectionEntry<"post" | "notes">
 ) {
   const da = toDate(a.data.publishDate as unknown);
   const db = toDate(b.data.publishDate as unknown);
