@@ -1,13 +1,13 @@
 {
   "compilerOptions": {
-    "moduleResolution": "bundler", 
+    "moduleResolution": "bundler",
+    "baseUrl": ".",
     "paths": {
       "@/*": ["./src/*"],
       "@layouts/*": ["./src/layouts/*"],
       "@components/*": ["./src/components/*"],
       "@consts": ["./src/consts.ts"]
     },
-    // Add this to get rid of the specific warning you're seeing:
-    "ignoreDeprecations": "5.0" 
+    "ignoreDeprecations": "5.0"
   }
 }

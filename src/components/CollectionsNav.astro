@@ -1,0 +1,41 @@
+---
+// src/components/CollectionsNav.astro
+import { getCollection } from "astro:content";
+
+const collections = ["blog", "favorite", "pages", "post", "note", "series"] as const;
+const navItems = [];
+
+for (const collectionName of collections) {
+    const collection = await getCollection(collectionName);
+    if (collection.length > 0) {
+        navItems.push({
+            name: collectionName.replace(/^\w/, c => c.toUpperCase()),
+            href: `/${collectionName}/`,
+            count: collection.length,
+        });
+    }
+}
+---
+
+<nav class="collections-nav mb-8 p-4 bg-bgColor/80 backdrop-blur rounded-lg border border-textColor/20">
+    <ul class="flex flex-wrap gap-4 list-none p-0 m-0">
+        {navItems.map(({ name, href, count }) => (
+            <li>
+                <a 
+                    href={href} 
+                    class="no-underline px-4 py-2 rounded-md hover:bg-textColor/10 transition-colors"
+                >
+                    {name}
+                    <span class="text-sm opacity-70 ml-2">({count})</span>
+                </a>
+            </li>
+        ))}
+    </ul>
+</nav>
+
+<style>
+    /* Matches your citrus theme */
+    .collections-nav {
+        backdrop-filter: blur(10px);
+    }
+</style>

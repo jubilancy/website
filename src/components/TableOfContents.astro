@@ -1,0 +1,13 @@
+---
+// https://github.com/withastro/starlight/blob/main/packages/starlight/components/TableOfContents.astro
+// import Default from "@astrojs/starlight/components/TableOfContents.astro";
+import Backlinks from "starlight-digital-garden/components/Backlinks.astro";
+import Tags from "./Tags.astro";
+import TOC from "./TOC.astro";
+---
+
+<TOC {...Astro.props} />
+
+<Backlinks entry={Astro.locals.starlightRoute.entry as any} />
+
+<Tags entry={Astro.locals.starlightRoute.entry as any} />

@@ -1,0 +1,63 @@
+---
+
+---
+
+<figure id="sigma-container" class="not-content"></figure>
+
+<style>
+  #sigma-container {
+    height: 500px;
+    width: 1000px;
+  }
+</style>
+
+<script>
+  import Sigma from "sigma";
+  import { MultiGraph } from "graphology";
+  import random from "graphology-layout/random";
+  // maybe https://graphology.github.io/standard-library/layout-force.html to allow drag and drop nodes?
+  import forceAtlas2 from "graphology-layout-forceatlas2";
+  import FA2Layout from "graphology-layout-forceatlas2/worker";
+
+  const getGraph = async () => {
+    const response = await fetch("/graph.json");
+    const data = await response.json();
+    const graph = new MultiGraph();
+    graph.import(data);
+    return graph;
+  };
+
+  const container = document.getElementById("sigma-container") as HTMLElement;
+
+  const graph = await getGraph();
+
+  // assign sizes based on degree
+  const degrees = graph.nodes().map((node) => graph.degree(node));
+  const minDegree = Math.min(...degrees);
+  const maxDegree = Math.max(...degrees);
+  const minSize = 2,
+    maxSize = 15;
+  graph.forEachNode((node) => {
+    const degree = graph.degree(node);
+    if (!graph.getNodeAttribute(node, "label").startsWith("#")) {
+      graph.setNodeAttribute(
+        node,
+        "size",
+        minSize +
+          ((degree - minDegree) / (maxDegree - minDegree)) * (maxSize - minSize)
+      );
+    }
+  });
+
+  random.assign(graph);
+  const layout = new FA2Layout(graph, {
+    settings: forceAtlas2.inferSettings(graph),
+  });
+  layout.start();
+  setTimeout(() => {
+    layout.stop();
+    layout.kill();
+  }, 60000);
+
+  const renderer = new Sigma(graph, container);
+</script>
