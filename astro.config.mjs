@@ -6,7 +6,8 @@ import tailwind from "@astrojs/tailwind";
 import icon from 'astro-icon';
 
 export default defineConfig({
-  site: "https://eliana.lol", // Updated to your domain!
+  site: 'https://jubilancy.github.io',
+  base: '/website',
   integrations: [
     // 1. Expressive Code MUST come before MDX to work properly
     astroExpressiveCode({
