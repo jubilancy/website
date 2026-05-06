@@ -1,11 +1,12 @@
 ---
+import type { CollectionEntry } from "astro:content";
 import { getCollection } from "astro:content";
 import PageLayout from "@layouts/PageLayout.astro";
 
 export async function getStaticPaths() {
   const categories = [
-    "blog", "notes", "guides", "tools", "recipes", "research", 
-    "lists", "links", "favorite", "post", "archive", "computer", 
+    "blog", "notes", "guides", "tools", "recipes", "research",
+    "lists", "links", "favorite", "post", "archive", "computer",
     "series", "packages", "blogroll", "projects", "work", "gallery", "pages"
   ];
 
@@ -23,9 +24,8 @@ export async function getStaticPaths() {
 }
 
 const { category } = Astro.params;
-const { posts } = Astro.props;
+const { posts } = Astro.props as { posts: CollectionEntry<any>[] };
 
-// Sort Alphabetically since we aren't using dates
 const sortedPosts = posts
   .filter((post) => !post.data.draft)
   .sort((a, b) => {
